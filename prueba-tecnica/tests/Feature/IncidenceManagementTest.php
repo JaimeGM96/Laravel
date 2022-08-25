@@ -33,7 +33,7 @@ class IncidenceManagementTest extends TestCase
     /**
      * @test
      */
-    public function can_create_a_incidence(){
+    public function can_create_an_incidence(){
         $incidence = Incidence::factory()->make();
         
         $response = $this->post('/incidences', [

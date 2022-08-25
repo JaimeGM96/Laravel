@@ -35,7 +35,7 @@ class ActivityManagementTest extends TestCase
     /**
      * @test
      */
-    public function can_create_a_activity(){
+    public function can_create_an_activity(){
         $activity = Activity::factory()->make();
 
         $response = $this->post('/activities', [
