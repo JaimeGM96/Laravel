@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
 
@@ -21,3 +22,5 @@ Route::get('/', function () {
 Route::get('/projects', [ProjectController::class, 'index']);
 
 Route::post('/projects', [ProjectController::class, 'store']);
+
+Route::get('/activities', [ActivityController::class, 'index']);
