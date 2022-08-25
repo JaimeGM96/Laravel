@@ -19,10 +19,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/projects', [ProjectController::class, 'index']);
+Route::controller(ProjectController::class)->prefix('projects')->group(function(){
+    Route::get('/', 'index');
+    Route::post('/', 'store');
+});
 
-Route::post('/projects', [ProjectController::class, 'store']);
-
-Route::get('/activities', [ActivityController::class, 'index']);
-
-Route::post('/activities', [ActivityController::class, 'store']);
+Route::controller(ActivityController::class)->prefix('activities')->group(function(){
+    Route::get('/', 'index');
+    Route::post('/', 'store');
+});
