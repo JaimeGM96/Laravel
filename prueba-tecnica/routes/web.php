@@ -24,3 +24,5 @@ Route::get('/projects', [ProjectController::class, 'index']);
 Route::post('/projects', [ProjectController::class, 'store']);
 
 Route::get('/activities', [ActivityController::class, 'index']);
+
+Route::post('/activities', [ActivityController::class, 'store']);

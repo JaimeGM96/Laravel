@@ -31,4 +31,30 @@ class ActivityManagementTest extends TestCase
             ]
         ]);
     }
+
+    /**
+     * @test
+     */
+    public function can_create_a_activity(){
+        $activity = Activity::factory()->make();
+
+        $response = $this->post('/activities', [
+            'name' => $activity->name,
+            'description' => $activity->description,
+        ]);
+
+        $response->assertCreated();
+        
+        $response->assertJson([
+            'data' => [
+                'name' => $activity->name,
+                'description' => $activity->description,
+            ]
+        ]);
+        
+        $this->assertDatabaseHas('activities', [
+            'name' => $activity->name,
+            'description' => $activity->description,
+        ]);
+    }
 }
