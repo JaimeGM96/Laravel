@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\ProjectResource;
 
 class ProjectController extends Controller
 {
@@ -15,8 +16,15 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Auth::user()->projects;
-        
-        return view('projects.index', compact('projects'));
+        return ProjectResource::collection(Project::all());
+    }
+
+    public function store(Request $request){
+        $project = Project::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'user_id' => Auth::id(),
+        ]);
+        return new ProjectResource($project);
     }
 }
