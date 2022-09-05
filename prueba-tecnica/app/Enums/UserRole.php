@@ -6,4 +6,5 @@ enum UserRole : int
 {
     case PARTICIPANT = 0;
     case MANAGER = 1;
+    case BOTH = 2;
 }
