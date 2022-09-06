@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ActivityRequest;
+use App\Http\Requests\UserActivityRequest;
 use App\Http\Resources\ActivityResource;
-use Illuminate\Http\Request;
 use App\Models\Activity;
-use Illuminate\Support\Facades\Auth;
+use App\Services\ActivityServices;
+use App\Models\User;
 
 class ActivityController extends Controller
 {
@@ -13,12 +15,15 @@ class ActivityController extends Controller
         return ActivityResource::collection(Activity::all());
     }
 
-    public function store(Request $request){
-        $activity = Activity::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'user_id' => Auth::id(),
-        ]);
-        return new ActivityResource($activity);
+    public function store(ActivityRequest $request, ActivityServices $activityServices){
+        return new ActivityResource($activityServices->createActivity($request->validated()));
+    }
+
+    public function addUserToActivity(UserActivityRequest $request, ActivityServices $activityServices){
+        return new ActivityResource($activityServices->addUserToAnActivity($request->validated()));
+    }
+
+    public function getActivitiesByUser(User $user){
+        return ActivityResource::collection($user->activities);
     }
 }
