@@ -9,6 +9,8 @@ use App\Models\Incidence;
 
 class IncidenceManagementTest extends TestCase
 {
+    use RefreshDatabase;
+    
     /**
      * @test
      */
