@@ -17,9 +17,6 @@ class ProjectManagementTest extends TestCase
      */
     public function can_create_a_project(){
         $project = Project::factory()->make();
-        $user = User::factory()->create();
-
-        $this->actingAs($user);
 
         $response = $this->post('/projects', [
             'name' => $project->name,
