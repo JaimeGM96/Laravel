@@ -43,6 +43,15 @@ class User extends Authenticatable
     ];
 
     public function projects(){
-        return $this->hasMany(Project::class);
+        return $this->belongsToMany(Project::class, 'user_projects')->withPivot('role_id');
     }
+
+    public function activities(){
+        return $this->belongsToMany(Activity::class, 'user_activities')->withPivot('role_id');
+    }
+
+    public function incidences(){
+        return $this->belongsToMany(Incidence::class, 'user_incidences');
+    }
+
 }

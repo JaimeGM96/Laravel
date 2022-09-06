@@ -13,4 +13,12 @@ class Incidence extends Model
         'name',
         'description',
     ];
+
+    public function activity(){
+        return $this->belongsTo(Activity::class);
+    }
+    
+    public function users(){
+        return $this->belongsToMany(User::class, 'user_incidences');
+    }
 }
