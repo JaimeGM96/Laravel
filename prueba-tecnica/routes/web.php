@@ -29,7 +29,7 @@ Route::controller(ProjectController::class)->prefix('projects')->group(function(
 Route::controller(ActivityController::class)->prefix('activities')->group(function(){
     Route::get('/', 'index');
     Route::post('/', 'store');
-    Route::post('/{activity}/users', ['as' => 'add.user.activity', 'uses' => 'addUserToActivity']);
+    Route::post('/{activity}/users', 'addUserToActivity');
 });
 
 Route::controller(IncidenceController::class)->prefix('incidences')->group(function(){

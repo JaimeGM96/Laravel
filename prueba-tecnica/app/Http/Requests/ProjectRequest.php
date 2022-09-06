@@ -14,7 +14,7 @@ class ProjectRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->project->isManager(auth()->user());
+        return true;
     }
 
     /**
@@ -26,7 +26,7 @@ class ProjectRequest extends FormRequest
     {
         return [
             'name' => 'required|min:3|max:30',
-            'description' => 'required|min:20|max:200',
+            'description' => 'required|min:20|max:500',
         ];
     }
 }
