@@ -21,16 +21,23 @@ Route::get('/', function () {
 });
 
 Route::controller(ProjectController::class)->prefix('projects')->group(function(){
-    Route::get('/', 'index');
+    Route::get('/', 'index')->middleware('can:viewAny,App\Models\Project')->name('projects.index');
     Route::post('/', 'store');
+    Route::get('/{project}/users', 'getUsers')->name('projects.users');
 });
 
 Route::controller(ActivityController::class)->prefix('activities')->group(function(){
     Route::get('/', 'index');
     Route::post('/', 'store');
+    Route::post('/{activity}/users', ['as' => 'add.user.activity', 'uses' => 'addUserToActivity']);
 });
 
 Route::controller(IncidenceController::class)->prefix('incidences')->group(function(){
     Route::get('/', 'index');
+    Route::post('/', 'store');
+});
+
+Route::controller(ActivityController::class)->prefix('users')->group(function(){
+    Route::get('/{user}/activities', 'getActivitiesByUser');
     Route::post('/', 'store');
 });

@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Http\Resources\ProjectResource;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\Project;
+use App\Models\User;
+use App\Enums\UserRole;
 
 class ProjectManagementTest extends TestCase
 {
@@ -15,29 +15,11 @@ class ProjectManagementTest extends TestCase
     /**
      * @test
      */
-    public function can_get_all_the_projects(){
-        $project = Project::factory()->create();
-
-        $response = $this->get('/projects');
-        
-        $response->assertOk();
-
-        $response->assertJson([
-            'data' => [
-                [
-                    'id' => $project->id,
-                    'name' => $project->name,
-                    'description' => $project->description,
-                ]
-            ]
-        ]);
-    }
-
-    /**
-     * @test
-     */
     public function can_create_a_project(){
         $project = Project::factory()->make();
+        $user = User::factory()->create();
+
+        $this->actingAs($user);
 
         $response = $this->post('/projects', [
             'name' => $project->name,
@@ -56,6 +38,91 @@ class ProjectManagementTest extends TestCase
         $this->assertDatabaseHas('projects', [
             'name' => $project->name,
             'description' => $project->description,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function an_user_can_be_added_to_a_project_as_participant(){
+        $project = Project::factory()->create();
+        $user = User::factory()->create();
+
+        $response = $this->post('/projects/'.$project->id.'/users', [
+            'user_id' => $user->id,
+            'role_id' => UserRole::PARTICIPANT->value,
+        ]);
+
+        $response->assertCreated();
+
+        $this->assertDatabaseHas('user_projects', [
+            'user_id' => $user->id,
+            'project_id' => $project->id,
+            'role_id' => UserRole::PARTICIPANT->value,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function an_user_can_be_added_to_a_project_as_manager(){
+        $project = Project::factory()->create();
+        $user = User::factory()->create();
+
+        $response = $this->post('/projects/'.$project->id.'/users', [
+            'user_id' => $user->id,
+            'role_id' => UserRole::MANAGER->value,
+        ]);
+
+        $response->assertCreated();
+
+        $this->assertDatabaseHas('user_projects', [
+            'user_id' => $user->id,
+            'project_id' => $project->id,
+            'role_id' => UserRole::MANAGER->value,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function an_user_can_be_added_to_a_project_as_participant_and_manager(){
+        $project = Project::factory()->create();
+        $user = User::factory()->create();
+
+        $response = $this->post('/projects/'.$project->id.'/users', [
+            'user_id' => $user->id,
+            'role_id' => UserRole::BOTH->value,
+        ]);
+
+        $response->assertCreated();
+
+        $this->assertDatabaseHas('user_projects', [
+            'user_id' => $user->id,
+            'project_id' => $project->id,
+            'role_id' => UserRole::BOTH->value,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function can_get_all_participants_by_project(){
+        $project = Project::factory()->create();
+        $user = User::factory()->hasAttached($project, ['role_id' => UserRole::PARTICIPANT])->create();
+
+        $response = $this->get(route('projects.users', $project->id));
+        
+        $response->assertOk();
+
+        $response->assertJson([
+            'data' => [
+                [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                ]
+            ]
         ]);
     }
 }
