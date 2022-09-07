@@ -16,7 +16,7 @@ class Project extends Model
     ];
 
     public function activities(){
-        return $this->hasMany(Activity::class);
+        return $this->belongsToMany(Activity::class);
     }
 
     public function users(){
@@ -25,5 +25,9 @@ class Project extends Model
 
     public function isManager(User $user){
         return $user->projects()->where('role_id', [UserRole::MANAGER, UserRole::BOTH])->exists();
+    }
+
+    public function isParticipant(User $user){
+        return $user->projects()->where('role_id', [UserRole::PARTICIPANT, UserRole::BOTH])->exists();
     }
 }

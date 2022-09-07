@@ -20,7 +20,7 @@ class Activity extends Model
     }
 
     public function project(){
-        return $this->belongsTo(Project::class);
+        return $this->belongsToMany(Project::class);
     }
     
     public function incidences(){

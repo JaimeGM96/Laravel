@@ -8,6 +8,7 @@ use App\Services\ProjectServices;
 use App\Http\Requests\ProjectRequest;
 use App\Http\Requests\UserProjectRequest;
 use App\Http\Resources\UserResource;
+use App\Models\Activity;
 
 class ProjectController extends Controller
 {
@@ -31,5 +32,10 @@ class ProjectController extends Controller
 
     public function addUserToProject(UserProjectRequest $request, ProjectServices $projectServices, Project $project){
         return new ProjectResource($projectServices->addUserToProject($request->validated(), $project));
+    }
+
+    public function addActivityToProject(Project $project, Activity $activity){
+        $project->activities()->attach($activity);
+        return new ProjectResource($project);
     }
 }

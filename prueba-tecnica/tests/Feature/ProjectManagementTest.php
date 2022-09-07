@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\Project;
+use App\Models\Activity;
 use App\Models\User;
 use App\Enums\UserRole;
 
@@ -120,6 +121,26 @@ class ProjectManagementTest extends TestCase
                     'email' => $user->email,
                 ]
             ]
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function add_an_activity_to_a_project(){
+        $activity = Activity::factory()->create();
+        $project = Project::factory()->create();
+
+        $response = $this->post(route('add.activity.to.project', [
+            'project' => $project->id,
+            'activity' => $activity->id,
+        ]));
+
+        $response->assertOk();
+        
+        $this->assertDatabaseHas('activity_project', [
+            'activity_id' => $activity->id,
+            'project_id' => $project->id,
         ]);
     }
 }
