@@ -14,9 +14,9 @@ class ActivityServices
         return $activity;
     }
 
-    public function addUserToAnActivity($request)
+    public function addUserToAnActivity($request, Activity $activity): Activity
     {
-        //
+        $activity->users()->attach($request['user_id'], ['role_id' => $request['role_id']]);
+        return $activity;
     }
-
 }

@@ -71,7 +71,7 @@ class ActivityManagementTest extends TestCase
             'role_id' => UserRole::PARTICIPANT->value,
         ]);
 
-        $response->assertCreated();
+        $response->assertOk();
         
         $this->assertDatabaseHas('user_activities', [
             'user_id' => $user->id,
@@ -91,7 +91,7 @@ class ActivityManagementTest extends TestCase
             'role_id' => UserRole::MANAGER->value,
         ]);
 
-        $response->assertCreated();
+        $response->assertOk();
         
         $this->assertDatabaseHas('user_activities', [
             'user_id' => $user->id,

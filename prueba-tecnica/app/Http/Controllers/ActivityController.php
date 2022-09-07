@@ -19,8 +19,8 @@ class ActivityController extends Controller
         return new ActivityResource($activityServices->createActivity($request->validated()));
     }
 
-    public function addUserToActivity(UserActivityRequest $request, ActivityServices $activityServices){
-        return new ActivityResource($activityServices->addUserToAnActivity($request->validated()));
+    public function addUserToActivity(UserActivityRequest $request, ActivityServices $activityServices, Activity $activity){
+        return new ActivityResource($activityServices->addUserToAnActivity($request->validated(), $activity));
     }
 
     public function getActivitiesByUser(User $user){
