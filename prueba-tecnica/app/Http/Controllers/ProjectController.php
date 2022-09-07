@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Http\Resources\ProjectResource;
-use App\Http\Resources\UserCollection;
-use App\Enums\UserRole;
 use App\Services\ProjectServices;
 use App\Http\Requests\ProjectRequest;
+use App\Http\Requests\UserProjectRequest;
 use App\Http\Resources\UserResource;
 
 class ProjectController extends Controller
@@ -29,5 +27,9 @@ class ProjectController extends Controller
 
     public function getUsers(Project $project){
         return UserResource::collection($project->users);
+    }
+
+    public function addUserToProject(UserProjectRequest $request, ProjectServices $projectServices, Project $project){
+        return new ProjectResource($projectServices->addUserToProject($request->validated(), $project));
     }
 }

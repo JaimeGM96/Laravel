@@ -50,7 +50,7 @@ class ProjectManagementTest extends TestCase
             'role_id' => UserRole::PARTICIPANT->value,
         ]);
 
-        $response->assertCreated();
+        $response->assertOk();
 
         $this->assertDatabaseHas('user_projects', [
             'user_id' => $user->id,
@@ -71,7 +71,7 @@ class ProjectManagementTest extends TestCase
             'role_id' => UserRole::MANAGER->value,
         ]);
 
-        $response->assertCreated();
+        $response->assertOk();
 
         $this->assertDatabaseHas('user_projects', [
             'user_id' => $user->id,
@@ -92,7 +92,7 @@ class ProjectManagementTest extends TestCase
             'role_id' => UserRole::BOTH->value,
         ]);
 
-        $response->assertCreated();
+        $response->assertOk();
 
         $this->assertDatabaseHas('user_projects', [
             'user_id' => $user->id,

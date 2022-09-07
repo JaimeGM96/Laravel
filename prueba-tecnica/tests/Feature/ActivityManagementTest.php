@@ -76,6 +76,7 @@ class ActivityManagementTest extends TestCase
         $this->assertDatabaseHas('user_activities', [
             'user_id' => $user->id,
             'activity_id' => $activity->id,
+            'role_id' => UserRole::PARTICIPANT->value,
         ]);
     }
 
@@ -96,6 +97,7 @@ class ActivityManagementTest extends TestCase
         $this->assertDatabaseHas('user_activities', [
             'user_id' => $user->id,
             'activity_id' => $activity->id,
+            'role_id' => UserRole::MANAGER->value,
         ]);
     }
 
