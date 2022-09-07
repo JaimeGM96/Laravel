@@ -17,7 +17,7 @@ class IncidenceManagementTest extends TestCase
     public function can_get_all_the_incidences(){
         $incidence = Incidence::factory()->create();
         
-        $response = $this->get('/incidences');
+        $response = $this->get(route('incidences.index'));
         
         $response->assertOk();
         
@@ -37,8 +37,8 @@ class IncidenceManagementTest extends TestCase
      */
     public function can_create_an_incidence(){
         $incidence = Incidence::factory()->make();
-        
-        $response = $this->post('/incidences', [
+
+        $response = $this->post(route('incidences.store'), [
             'name' => $incidence->name,
             'description' => $incidence->description,
         ]);

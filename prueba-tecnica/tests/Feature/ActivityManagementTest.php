@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\Activity;
 use App\Models\User;
@@ -19,7 +18,7 @@ class ActivityManagementTest extends TestCase
     public function can_get_all_the_activities(){
         $activity = Activity::factory()->create();
 
-        $response = $this->get('/activities');
+        $response = $this->get(route('activities.index'));
 
         $response->assertOk();
         
@@ -40,7 +39,7 @@ class ActivityManagementTest extends TestCase
     public function can_create_an_activity(){
         $activity = Activity::factory()->make();
 
-        $response = $this->post('/activities', [
+        $response = $this->post(route('activities.store'), [
             'name' => $activity->name,
             'description' => $activity->description,
         ]);
@@ -67,7 +66,7 @@ class ActivityManagementTest extends TestCase
         $activity = Activity::factory()->create();
         $user = User::factory()->create();
 
-        $response = $this->post('/activities/'.$activity->id.'/users', [
+        $response = $this->post(route('add.user.to.activity', $activity->id), [
             'user_id' => $user->id,
             'role_id' => UserRole::PARTICIPANT->value,
         ]);
@@ -87,7 +86,7 @@ class ActivityManagementTest extends TestCase
         $activity = Activity::factory()->create();
         $user = User::factory()->create();
 
-        $response = $this->post('/activities/'.$activity->id.'/users', [
+        $response = $this->post(route('add.user.to.activity', $activity->id), [
             'user_id' => $user->id,
             'role_id' => UserRole::MANAGER->value,
         ]);

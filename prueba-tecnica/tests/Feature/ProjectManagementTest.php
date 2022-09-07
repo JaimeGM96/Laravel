@@ -18,7 +18,7 @@ class ProjectManagementTest extends TestCase
     public function can_create_a_project(){
         $project = Project::factory()->make();
 
-        $response = $this->post('/projects', [
+        $response = $this->post(route('projects.store'), [
             'name' => $project->name,
             'description' => $project->description,
         ]);
@@ -45,7 +45,7 @@ class ProjectManagementTest extends TestCase
         $project = Project::factory()->create();
         $user = User::factory()->create();
 
-        $response = $this->post('/projects/'.$project->id.'/users', [
+        $response = $this->post(route('add.user.project', $project->id), [
             'user_id' => $user->id,
             'role_id' => UserRole::PARTICIPANT->value,
         ]);
@@ -66,7 +66,7 @@ class ProjectManagementTest extends TestCase
         $project = Project::factory()->create();
         $user = User::factory()->create();
 
-        $response = $this->post('/projects/'.$project->id.'/users', [
+        $response = $this->post(route('add.user.project', $project->id), [
             'user_id' => $user->id,
             'role_id' => UserRole::MANAGER->value,
         ]);
@@ -87,7 +87,7 @@ class ProjectManagementTest extends TestCase
         $project = Project::factory()->create();
         $user = User::factory()->create();
 
-        $response = $this->post('/projects/'.$project->id.'/users', [
+        $response = $this->post(route('add.user.project', $project->id), [
             'user_id' => $user->id,
             'role_id' => UserRole::BOTH->value,
         ]);
