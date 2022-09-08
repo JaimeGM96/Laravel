@@ -7,6 +7,7 @@ use App\Http\Resources\ProjectResource;
 use App\Services\ProjectServices;
 use App\Http\Requests\ProjectRequest;
 use App\Http\Requests\UserProjectRequest;
+use App\Http\Resources\ActivityResource;
 use App\Http\Resources\UserResource;
 use App\Models\Activity;
 
@@ -35,7 +36,7 @@ class ProjectController extends Controller
     }
 
     public function addActivityToProject(Project $project, Activity $activity){
-        $project->activities()->attach($activity);
-        return new ProjectResource($project);
+        $activity->project()->attach($project);
+        return new ActivityResource($activity);
     }
 }

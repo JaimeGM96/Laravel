@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Models\Incidence;
 use App\Models\Activity;
 use App\Models\User;
 use App\Enums\UserRole;
@@ -120,6 +121,26 @@ class ActivityManagementTest extends TestCase
                     'description' => $activity->description,
                 ]
             ]
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function can_add_an_incidence_to_an_activity(){
+        $incidence = Incidence::factory()->create();
+        $activity = Activity::factory()->create();
+
+        $response = $this->post(route('add.incidence.to.activity', [
+            'activity' => $activity->id,
+            'incidence' => $incidence->id,
+        ]));
+
+        $response->assertOk();
+        
+        $this->assertDatabaseHas('incidence_activity', [
+            'incidence_id' => $incidence->id,
+            'activity_id' => $activity->id,
         ]);
     }
 }

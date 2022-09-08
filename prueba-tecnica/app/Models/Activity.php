@@ -30,8 +30,4 @@ class Activity extends Model
     public function isManager(User $user){
         return $user->activities()->where('role_id', UserRole::MANAGER)->exists();
     }
-
-    // public function canBeAssigned(User $user){
-    //     return !project()->isManager($user);
-    // }
 }

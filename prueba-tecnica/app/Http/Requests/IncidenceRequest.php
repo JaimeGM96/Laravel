@@ -25,7 +25,7 @@ class IncidenceRequest extends FormRequest
     {
         return [
             'name' => 'required|min:3|max:30',
-            'description' => 'required|min:20|max:200',
+            'description' => 'required|min:20|max:500',
         ];
     }
 }

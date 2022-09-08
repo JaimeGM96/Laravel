@@ -25,12 +25,14 @@ Route::controller(ProjectController::class)->prefix('projects')->group(function(
     Route::post('/', 'store')->name('projects.store');
     Route::get('/{project}/users', 'getUsers')->name('projects.users');
     Route::post('/{project}/users', 'addUserToProject')->name('add.user.project');
+    Route::post('/{project}/activities/{activity}', 'addActivityToProject')->name('add.activity.to.project');
 });
 
 Route::controller(ActivityController::class)->prefix('activities')->group(function(){
     Route::get('/', 'index')->name('activities.index');
     Route::post('/', 'store')->name('activities.store');
     Route::post('/{activity}/users', 'addUserToActivity')->name('add.user.to.activity');
+    Route::post('/{activity}/incidences/{incidence}', 'addIncidenceToActivity')->name('add.incidence.to.activity');
 });
 
 Route::controller(IncidenceController::class)->prefix('incidences')->group(function(){
