@@ -91,4 +91,8 @@ class ActivityPolicy
     {
         //
     }
+
+    public function beAssigned(Activity $activity){
+        return $activity->project->isParticipant(auth()->user());
+    }
 }

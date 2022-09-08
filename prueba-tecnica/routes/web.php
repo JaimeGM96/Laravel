@@ -38,6 +38,7 @@ Route::controller(ActivityController::class)->prefix('activities')->group(functi
 Route::controller(IncidenceController::class)->prefix('incidences')->group(function(){
     Route::get('/', 'index')->name('incidences.index');
     Route::post('/', 'store')->name('incidences.store');
+    Route::get('/users/{user}', 'getIncidencesByUser')->name('incidences.by.user');
 });
 
 Route::controller(ActivityController::class)->prefix('users')->group(function(){

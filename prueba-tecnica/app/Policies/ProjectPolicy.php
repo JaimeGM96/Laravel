@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use App\Enums\UserRole;
 
 class ProjectPolicy
 {
@@ -18,7 +19,7 @@ class ProjectPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return $user->projects()->where('role_id', [UserRole::MANAGER, UserRole::BOTH])->exists();
     }
 
     /**

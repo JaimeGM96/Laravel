@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Enums\UserRole;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\Incidence;
@@ -62,23 +63,31 @@ class IncidenceManagementTest extends TestCase
     /**
      * @test
      */
-    // public function manager_users_of_an_activity_can_get_all_the_incidences_of_that_activity(){
-    //     $user = User::factory()->create();
-    //     $activity = Activity::factory()->create();
-    //     $incidence = Incidence::factory()->create();
+    public function manager_users_of_an_activity_can_get_all_the_incidences_of_that_activity(){
+        $activity = Activity::factory()->create();
+        $user = User::factory()->hasAttached($activity, ['role_id' => UserRole::MANAGER])->create();
+        $incidence = Incidence::factory()->create();
+        $incidence->activity()->attach($activity);
+
+        $data =[
+            'user_id' => $user->id,
+            'incidence_id' => $incidence->id,
+            'activity_id' => $activity->id,
+            'role_id' => UserRole::MANAGER,
+        ];
         
-    //     $response = $this->get(route('incidences.activity.index', $incidence->activity_id));
+        $response = $this->get(route('incidences.by.user', $user->id), $data);
         
-    //     $response->assertOk();
+        $response->assertOk();
         
-    //     $response->assertJson([
-    //         'data' => [
-    //             [
-    //                 'id' => $incidence->id,
-    //                 'name' => $incidence->name,
-    //                 'description' => $incidence->description,
-    //             ]
-    //         ]
-    //     ]);
-    // }
+        $response->assertJson([
+            'data' => [
+                [
+                    'id' => $incidence->id,
+                    'name' => $incidence->name,
+                    'description' => $incidence->description,
+                ]
+            ]
+        ]);
+    }
 }

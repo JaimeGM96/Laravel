@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Models\Incidence;
 use App\Enums\UserRole;
-use Illuminate\Database\Console\DumpCommand;
+use App\Models\User;
 
 class IncidenceServices
 {
@@ -13,5 +13,12 @@ class IncidenceServices
         $incidence = new Incidence($request);
         $incidence->save();
         return $incidence;
+    }
+
+    public function getIncidencesByUser($request)
+    {
+        $user = User::findOrFail($request['user_id']);
+        $incidences = $user->incidences;
+        return $incidences;
     }
 }
