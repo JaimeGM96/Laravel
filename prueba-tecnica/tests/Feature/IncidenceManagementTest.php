@@ -63,31 +63,31 @@ class IncidenceManagementTest extends TestCase
     /**
      * @test
      */
-    public function manager_users_of_an_activity_can_get_all_the_incidences_of_that_activity(){
-        $activity = Activity::factory()->create();
-        $user = User::factory()->hasAttached($activity, ['role_id' => UserRole::MANAGER])->create();
-        $incidence = Incidence::factory()->create();
-        $incidence->activity()->attach($activity);
+    // public function manager_users_of_an_activity_can_get_all_the_incidences_of_that_activity(){
+    //     $activity = Activity::factory()->create();
+    //     $user = User::factory()->hasAttached($activity, ['role_id' => UserRole::MANAGER])->create();
+    //     $incidence = Incidence::factory()->create();
+    //     $incidence->activity()->attach($activity);
 
-        $data =[
-            'user_id' => $user->id,
-            'incidence_id' => $incidence->id,
-            'activity_id' => $activity->id,
-            'role_id' => UserRole::MANAGER,
-        ];
+    //     $data =[
+    //         'user_id' => $user->id,
+    //         'incidence_id' => $incidence->id,
+    //         'activity_id' => $activity->id,
+    //         'role_id' => UserRole::MANAGER,
+    //     ];
         
-        $response = $this->get(route('incidences.by.user', $user->id), $data);
+    //     $response = $this->get(route('incidences.by.user', $user->id), $data);
         
-        $response->assertOk();
+    //     $response->assertOk();
         
-        $response->assertJson([
-            'data' => [
-                [
-                    'id' => $incidence->id,
-                    'name' => $incidence->name,
-                    'description' => $incidence->description,
-                ]
-            ]
-        ]);
-    }
+    //     $response->assertJson([
+    //         'data' => [
+    //             [
+    //                 'id' => $incidence->id,
+    //                 'name' => $incidence->name,
+    //                 'description' => $incidence->description,
+    //             ]
+    //         ]
+    //     ]);
+    // }
 }
